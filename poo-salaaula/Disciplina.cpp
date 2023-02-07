@@ -4,13 +4,16 @@
 #include<iostream>
 
 Disciplina::Disciplina(std::string nome, SalaAula* sala)
-	:nome{ nome }, sala{ sala } {
+	:nome{ nome }, sala{ nullptr } {
+	this->setSalaAula(sala);
 }
 
 void Disciplina::setSalaAula(SalaAula* sala) {
-	//precisariamos ainda verificar se sala não é nullptr
-	//faremos isso no tópico exceções no futuro
+	if (this->sala != nullptr)//se já existia uma sala, remover a disciplina dessa sala
+		this->sala->disciplinasMinistradas.remove(this);
 	this->sala = sala;
+	if (this->sala != nullptr)
+		this->sala->disciplinasMinistradas.push_back(this);//adicionar a disciplina na nova sala
 }
 
 SalaAula* Disciplina::getSalaAula() {
